@@ -72,7 +72,7 @@ public class AnexoServiceImpl implements AnexoService {
 
     private String salvarArquivoNoDisco(MultipartFile file) {
         try {
-            File pasta = new File(uploadDir);
+            File pasta = new File(uploadDir).getAbsoluteFile();
             if (!pasta.exists()) pasta.mkdirs();
 
             String nomeArquivo = UUID.randomUUID() + "_" + file.getOriginalFilename();
