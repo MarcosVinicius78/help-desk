@@ -40,6 +40,7 @@ public class ChamadoServiceImpl implements ChamadosServices {
         chamado.setUsuNrIdTecnico(dto.chaNrIdTecnico());
         chamado.setChaDtDataCriacao(LocalDateTime.now());
         chamado.setChaDtDataAtualizacao(LocalDateTime.now());
+        chamado.setCatNrId(dto.catNrId());
         return new ChamadoDto(chamadoRepository.save(chamado));
     }
 
@@ -53,6 +54,7 @@ public class ChamadoServiceImpl implements ChamadosServices {
                     c.setUsuNrIdCliente(dto.chaNrIdCliente());
                     c.setUsuNrIdTecnico(dto.chaNrIdTecnico());
                     c.setChaDtDataAtualizacao(LocalDateTime.now());
+                    c.setCatNrId(dto.catNrId());
                     return new ChamadoDto(chamadoRepository.save(c));
                 }).orElseThrow(() -> new RuntimeException("Chamado não encontrado"));
     }

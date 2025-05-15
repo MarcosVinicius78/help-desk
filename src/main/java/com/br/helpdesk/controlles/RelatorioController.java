@@ -1,10 +1,7 @@
 package com.br.helpdesk.controlles;
 
 import com.br.helpdesk.services.relatorios.RelatorioService;
-import com.br.helpdesk.services.relatorios.dto.RelatorioChamadosPorDataDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioChamadosPorTecnicoDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioStatusDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioTempoMedioResolucaoDto;
+import com.br.helpdesk.services.relatorios.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +32,10 @@ public class RelatorioController {
     @GetMapping("/por-dia")
     public ResponseEntity<List<RelatorioChamadosPorDataDto>> porDia() {
         return ResponseEntity.ok(relatorioService.obterChamadosPorData());
+    }
+
+    @GetMapping("/por-categoria")
+    public ResponseEntity<List<RelatorioChamadosPorCategoriaDto>> porCategoria() {
+        return ResponseEntity.ok(relatorioService.relatorioChamadosPorCategoria());
     }
 }

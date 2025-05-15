@@ -10,6 +10,7 @@ public record ChamadoForm(
         @Enumerated(EnumType.STRING)
         StatusChamados chaTxStatus,
         Long chaNrIdCliente,
-        Long chaNrIdTecnico
+        Long chaNrIdTecnico,
+        Long catNrId
 ) {
 }

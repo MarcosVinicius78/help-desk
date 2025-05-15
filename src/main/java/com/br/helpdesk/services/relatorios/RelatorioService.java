@@ -1,9 +1,6 @@
 package com.br.helpdesk.services.relatorios;
 
-import com.br.helpdesk.services.relatorios.dto.RelatorioChamadosPorDataDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioChamadosPorTecnicoDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioStatusDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioTempoMedioResolucaoDto;
+import com.br.helpdesk.services.relatorios.dto.*;
 
 import java.util.List;
 
@@ -15,4 +12,6 @@ public interface RelatorioService {
     List<RelatorioTempoMedioResolucaoDto> obterTempoMedioResolucao();
 
     List<RelatorioChamadosPorDataDto> obterChamadosPorData();
+
+    List<RelatorioChamadosPorCategoriaDto> relatorioChamadosPorCategoria();
 }

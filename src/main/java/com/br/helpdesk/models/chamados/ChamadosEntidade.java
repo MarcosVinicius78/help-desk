@@ -43,4 +43,7 @@ public class ChamadosEntidade {
 
     @Column(name = "usu_nr_id_tecnico")
     private Long usuNrIdTecnico;
+
+    @Column(name = "cat_nr_id")
+    private Long catNrId;
 }

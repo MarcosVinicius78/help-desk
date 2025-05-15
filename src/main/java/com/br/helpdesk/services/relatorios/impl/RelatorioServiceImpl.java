@@ -2,10 +2,7 @@ package com.br.helpdesk.services.relatorios.impl;
 
 import com.br.helpdesk.repository.RelatorioRepository;
 import com.br.helpdesk.services.relatorios.RelatorioService;
-import com.br.helpdesk.services.relatorios.dto.RelatorioChamadosPorDataDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioChamadosPorTecnicoDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioStatusDto;
-import com.br.helpdesk.services.relatorios.dto.RelatorioTempoMedioResolucaoDto;
+import com.br.helpdesk.services.relatorios.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +31,10 @@ public class RelatorioServiceImpl implements RelatorioService {
     @Override
     public List<RelatorioChamadosPorDataDto> obterChamadosPorData() {
         return relatorioRepository.relatorioChamadosPorData();
+    }
+
+    @Override
+    public List<RelatorioChamadosPorCategoriaDto> relatorioChamadosPorCategoria() {
+        return relatorioRepository.relatorioChamadosPorCategoria();
     }
 }

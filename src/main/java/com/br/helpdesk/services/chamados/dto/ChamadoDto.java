@@ -13,7 +13,8 @@ public record ChamadoDto(
         LocalDateTime chaDtDataCriacao,
         LocalDateTime chaDtDataAtualizacao,
         Long chaNrIdCliente,
-        Long chaNrIdTecnico
+        Long chaNrIdTecnico,
+        Long catNrId
 ) {
     public ChamadoDto(ChamadosEntidade chamadosEntidade){
         this(
@@ -24,7 +25,8 @@ public record ChamadoDto(
                 chamadosEntidade.getChaDtDataCriacao(),
                 chamadosEntidade.getChaDtDataAtualizacao(),
                 chamadosEntidade.getUsuNrIdCliente(),
-                chamadosEntidade.getUsuNrIdTecnico()
+                chamadosEntidade.getUsuNrIdTecnico(),
+                chamadosEntidade.getCatNrId()
         );
     }
 }
