@@ -5,6 +5,7 @@ public record UsuarioForm(
         String usuTxEmail,
         String usuTxSenha,
         Boolean usuBlAtivo,
-        Long rolNrId
+        Long rolNrId,
+        Long empNrId
 ) {
 }

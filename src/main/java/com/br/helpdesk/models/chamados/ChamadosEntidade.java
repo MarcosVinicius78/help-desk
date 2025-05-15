@@ -1,5 +1,6 @@
-package com.br.helpdesk.models;
+package com.br.helpdesk.models.chamados;
 
+import com.br.helpdesk.models.chamados.enums.StatusChamados;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,8 +28,9 @@ public class ChamadosEntidade {
     @Column(name = "cha_tx_descricao")
     private String chaTxDescricao;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "cha_Tx_status")
-    private String chaTxStatus;
+    private StatusChamados chaTxStatus;
 
     @Column(name = "cha_dt_data_criacao")
     private LocalDateTime chaDtDataCriacao;

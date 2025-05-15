@@ -37,6 +37,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setUsuTxSenha(form.usuTxSenha());
         usuario.setUsuBlAtivo(form.usuBlAtivo());
         usuario.setRolNrId(form.rolNrId());
+        usuario.setEmpNrId(form.empNrId());
         return new UsuarioDto(usuarioRepository.save(usuario));
     }
 
@@ -49,6 +50,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                     usuario.setUsuTxSenha(form.usuTxSenha());
                     usuario.setUsuBlAtivo(form.usuBlAtivo());
                     usuario.setRolNrId(form.rolNrId());
+                    usuario.setEmpNrId(form.empNrId());
                     return new UsuarioDto(usuarioRepository.save(usuario));
                 })
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));

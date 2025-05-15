@@ -1,0 +1,1 @@
+alter table com_comentarios drop column usu_nr_id_tecnico;

@@ -30,6 +30,6 @@ public class ComentariosEntidade {
     @Column(name = "cha_nr_id")
     private Long chaNrId;
 
-    @Column(name = "usu_nr_id")
-    private Long usuNrId;
+    @Column(name = "usu_nr_id_cliente")
+    private Long usuNrIdCliente;
 }

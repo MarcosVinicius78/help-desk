@@ -1,6 +1,7 @@
 package com.br.helpdesk.services.chamados.impl;
 
-import com.br.helpdesk.models.ChamadosEntidade;
+import com.br.helpdesk.models.chamados.ChamadosEntidade;
+import com.br.helpdesk.models.chamados.enums.StatusChamados;
 import com.br.helpdesk.repository.ChamadoRepository;
 import com.br.helpdesk.services.chamados.ChamadosServices;
 import com.br.helpdesk.services.chamados.dto.ChamadoDto;
@@ -34,7 +35,7 @@ public class ChamadoServiceImpl implements ChamadosServices {
         ChamadosEntidade chamado = new ChamadosEntidade();
         chamado.setChaTxTitulo(dto.chaTxTitulo());
         chamado.setChaTxDescricao(dto.chaTxDescricao());
-        chamado.setChaTxStatus(dto.chaTxStatus());
+        chamado.setChaTxStatus(StatusChamados.ABERTO);
         chamado.setUsuNrIdCliente(dto.chaNrIdCliente());
         chamado.setUsuNrIdTecnico(dto.chaNrIdTecnico());
         chamado.setChaDtDataCriacao(LocalDateTime.now());

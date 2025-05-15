@@ -33,4 +33,7 @@ public class UsuarioEntidade {
 
     @Column(name = "rol_nr_id")
     private Long rolNrId;
+
+    @Column(name = "emp_nr_id")
+    private Long empNrId;
 }
