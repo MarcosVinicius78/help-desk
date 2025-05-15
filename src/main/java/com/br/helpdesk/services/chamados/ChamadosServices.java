@@ -16,5 +16,7 @@ public interface ChamadosServices {
 
     ChamadoDto atualizarChamado(Long id, ChamadoForm dto);
 
+    ChamadoDto atribuirChamado(Long chaNrId, Long usuNrIdTecnico);
+
     void deletarChamado(Long id);
 }

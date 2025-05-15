@@ -36,6 +36,11 @@ public class ChamadosController {
         return ResponseEntity.ok().body(chamadosServices.atualizarChamado(id, form));
     }
 
+    @PutMapping("/{chaNrId}/atribuir-chamado/{usuNrIdTecnico}")
+    public ResponseEntity<ChamadoDto> atribuirChamadoAUmTecnico(@PathVariable Long chaNrId, @PathVariable Long usuNrIdTecnico) {
+        return ResponseEntity.ok().body(chamadosServices.atribuirChamado(chaNrId, usuNrIdTecnico));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarChamado(@PathVariable Long id) {
         chamadosServices.deletarChamado(id);

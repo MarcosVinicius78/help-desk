@@ -58,6 +58,15 @@ public class ChamadoServiceImpl implements ChamadosServices {
     }
 
     @Override
+    public ChamadoDto atribuirChamado(Long chaNrId, Long usuNrIdTecnico) {
+        return chamadoRepository.findById(chaNrId)
+                .map(chamado -> {
+                    chamado.setUsuNrIdTecnico(usuNrIdTecnico);
+                    return new ChamadoDto(chamadoRepository.save(chamado));
+                }).orElseThrow(() -> new RuntimeException("Chamado não encontrado"));
+    }
+
+    @Override
     public void deletarChamado(Long id) {
         buscarChamadoPorId(id);
         chamadoRepository.deleteById(id);
