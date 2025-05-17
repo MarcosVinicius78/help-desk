@@ -7,6 +7,8 @@ import com.br.helpdesk.services.chamados.ChamadosServices;
 import com.br.helpdesk.services.chamados.dto.ChamadoDto;
 import com.br.helpdesk.services.chamados.form.ChamadoForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,10 +21,20 @@ public class ChamadoServiceImpl implements ChamadosServices {
     private final ChamadoRepository chamadoRepository;
 
     @Override
-    public List<ChamadoDto> listarChamados() {
-        return chamadoRepository.findAll().stream()
-                .map(ChamadoDto::new)
-                .toList();
+    public Page<ChamadoDto> listarChamados(Pageable pageable) {
+        return chamadoRepository.findAll(pageable).map(ChamadoDto::new);
+    }
+
+    @Override
+    public Page<ChamadoDto> listarChamadosPorCliente(Long usuNrIdCliente, Pageable pageable) {
+        return chamadoRepository.findByUsuNrIdCliente(usuNrIdCliente, pageable)
+                .map(ChamadoDto::new);
+    }
+
+    @Override
+    public Page<ChamadoDto> listarChamadosPorTecnico(Long usuNrIdTecnico, Pageable pageable) {
+        return chamadoRepository.findByUsuNrIdTecnico(usuNrIdTecnico, pageable)
+                .map(ChamadoDto::new);
     }
 
     @Override

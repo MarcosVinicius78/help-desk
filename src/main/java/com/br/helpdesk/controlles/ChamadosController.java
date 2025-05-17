@@ -4,6 +4,10 @@ import com.br.helpdesk.services.chamados.ChamadosServices;
 import com.br.helpdesk.services.chamados.dto.ChamadoDto;
 import com.br.helpdesk.services.chamados.form.ChamadoForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +20,44 @@ public class ChamadosController {
 
     private final ChamadosServices chamadosServices;
 
+//    @GetMapping
+//    public ResponseEntity<List<ChamadoDto>> listarChamados() {
+//        return ResponseEntity.ok().body(chamadosServices.listarChamados());
+//    }
+
     @GetMapping
-    public ResponseEntity<List<ChamadoDto>> listarChamados() {
-        return ResponseEntity.ok().body(chamadosServices.listarChamados());
+    public ResponseEntity<Page<ChamadoDto>> listarChamados(
+            @PageableDefault(size = 10, sort = "chaDtDataCriacao", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(chamadosServices.listarChamados(pageable));
     }
+
+    @GetMapping("/cliente/{usuNrIdCliente}")
+    public ResponseEntity<Page<ChamadoDto>> listarPorCliente(
+            @PathVariable Long usuNrIdCliente,
+            @PageableDefault(size = 10, sort = "chaDtDataCriacao", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(chamadosServices.listarChamadosPorCliente(usuNrIdCliente, pageable));
+    }
+
+    @GetMapping("/tecnico/{usuNrIdTecnico}")
+    public ResponseEntity<Page<ChamadoDto>> listarPorTecnico(
+            @PathVariable Long usuNrIdTecnico,
+            @PageableDefault(size = 10, sort = "chaDtDataCriacao", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(chamadosServices.listarChamadosPorTecnico(usuNrIdTecnico, pageable));
+    }
+//
+//    @GetMapping("/cliente/{usuNrIdCliente}")
+//    public ResponseEntity<List<ChamadoDto>> listarPorCliente(@PathVariable Long usuNrIdCliente) {
+//        return ResponseEntity.ok(chamadosServices.listarChamadosPorCliente(usuNrIdCliente));
+//    }
+//
+//    @GetMapping("/tecnico/{usuNrIdTecnico}")
+//    public ResponseEntity<List<ChamadoDto>> listarPorTecnico(@PathVariable Long usuNrIdTecnico) {
+//        return ResponseEntity.ok(chamadosServices.listarChamadosPorTecnico(usuNrIdTecnico));
+//    }
+//
+
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ChamadoDto> buscarChamadoPorId(@PathVariable Long id) {
