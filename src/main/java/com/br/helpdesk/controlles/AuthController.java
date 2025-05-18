@@ -6,14 +6,20 @@ import com.br.helpdesk.repository.UsuarioRepository;
 import com.br.helpdesk.services.login.dto.LoginRequest;
 import com.br.helpdesk.services.login.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,9 +32,31 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest login) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(login.usuTxEmail(), login.usuTxSenha()));
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            login.usuTxEmail(),
+                            login.usuTxSenha()
+                    )
+            );
+        } catch (BadCredentialsException ex) {
+            // E‑mail ou senha inválidos
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "E-mail ou senha inválidos"));
+        } catch (DisabledException ex) {
+            // Usuário existe mas está desativado
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("error", "Usuário desativado"));
+        } catch (AuthenticationException ex) {
+            // Qualquer outro problema de autenticação
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Falha na autenticação"));
+        }
 
+        // Se chegou aqui, autenticou OK
         String token = jwtUtil.gerarToken(login.usuTxEmail());
         return ResponseEntity.ok(new TokenResponse(token));
     }
@@ -41,7 +69,7 @@ public class AuthController {
         novo.setUsuTxNome("Novo Usuário");
         novo.setUsuBlAtivo(true);
         novo.setRolNrId(2L);
-        novo.setEmpNrId(6L);
+        novo.setEmpNrId(1L);
         // coloque um role e empresa válidos aqui
         usuarioRepository.save(novo);
 
