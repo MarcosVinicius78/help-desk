@@ -17,6 +17,7 @@ public class CorsConfig {
                         .allowedOrigins("http://localhost:4200") // Front Angular
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
+                        .exposedHeaders("Authorization")
                         .allowCredentials(true);
             }
         };
