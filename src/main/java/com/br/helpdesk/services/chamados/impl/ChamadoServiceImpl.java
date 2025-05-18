@@ -4,7 +4,9 @@ import com.br.helpdesk.models.chamados.ChamadosEntidade;
 import com.br.helpdesk.models.chamados.enums.StatusChamados;
 import com.br.helpdesk.repository.ChamadoRepository;
 import com.br.helpdesk.services.chamados.ChamadosServices;
+import com.br.helpdesk.services.chamados.dto.ChamadoDadosCompletosDto;
 import com.br.helpdesk.services.chamados.dto.ChamadoDto;
+import com.br.helpdesk.services.chamados.dto.ChamadosDadosCompletos;
 import com.br.helpdesk.services.chamados.form.ChamadoForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,20 +23,20 @@ public class ChamadoServiceImpl implements ChamadosServices {
     private final ChamadoRepository chamadoRepository;
 
     @Override
-    public Page<ChamadoDto> listarChamados(Pageable pageable) {
-        return chamadoRepository.findAll(pageable).map(ChamadoDto::new);
+    public Page<ChamadoDadosCompletosDto> listarChamados(ChamadoForm filtro, Pageable pageable) {
+        return chamadoRepository.findAllWithFilters(filtro, pageable).map(ChamadoDadosCompletosDto::new);
     }
 
     @Override
-    public Page<ChamadoDto> listarChamadosPorCliente(Long usuNrIdCliente, Pageable pageable) {
-        return chamadoRepository.findByUsuNrIdCliente(usuNrIdCliente, pageable)
-                .map(ChamadoDto::new);
+    public Page<ChamadoDadosCompletosDto> listarChamadosPorCliente(Long usuNrIdCliente, ChamadoForm filtro, Pageable pageable) {
+        return chamadoRepository.findByUsuNrIdCliente(usuNrIdCliente, filtro, pageable)
+                .map(ChamadoDadosCompletosDto::new);
     }
 
     @Override
-    public Page<ChamadoDto> listarChamadosPorTecnico(Long usuNrIdTecnico, Pageable pageable) {
-        return chamadoRepository.findByUsuNrIdTecnico(usuNrIdTecnico, pageable)
-                .map(ChamadoDto::new);
+    public Page<ChamadoDadosCompletosDto> listarChamadosPorTecnico(Long usuNrIdTecnico, ChamadoForm filtro, Pageable pageable) {
+        return chamadoRepository.findByUsuNrIdTecnico(usuNrIdTecnico, filtro, pageable)
+                .map(ChamadoDadosCompletosDto::new);
     }
 
     @Override
@@ -76,6 +78,7 @@ public class ChamadoServiceImpl implements ChamadosServices {
         return chamadoRepository.findById(chaNrId)
                 .map(chamado -> {
                     chamado.setUsuNrIdTecnico(usuNrIdTecnico);
+                    chamado.setChaTxStatus(StatusChamados.EM_ANDAMENTO);
                     return new ChamadoDto(chamadoRepository.save(chamado));
                 }).orElseThrow(() -> new RuntimeException("Chamado não encontrado"));
     }

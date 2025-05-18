@@ -1,6 +1,7 @@
 package com.br.helpdesk.controlles;
 
 import com.br.helpdesk.services.chamados.ChamadosServices;
+import com.br.helpdesk.services.chamados.dto.ChamadoDadosCompletosDto;
 import com.br.helpdesk.services.chamados.dto.ChamadoDto;
 import com.br.helpdesk.services.chamados.form.ChamadoForm;
 import lombok.RequiredArgsConstructor;
@@ -26,23 +27,26 @@ public class ChamadosController {
 //    }
 
     @GetMapping
-    public ResponseEntity<Page<ChamadoDto>> listarChamados(
-            @PageableDefault(size = 10, sort = "chaDtDataCriacao", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(chamadosServices.listarChamados(pageable));
+    public ResponseEntity<Page<ChamadoDadosCompletosDto>> listarChamados(
+            ChamadoForm filtro,
+            @PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(chamadosServices.listarChamados(filtro, pageable));
     }
 
     @GetMapping("/cliente/{usuNrIdCliente}")
-    public ResponseEntity<Page<ChamadoDto>> listarPorCliente(
+    public ResponseEntity<Page<ChamadoDadosCompletosDto>> listarPorCliente(
             @PathVariable Long usuNrIdCliente,
-            @PageableDefault(size = 10, sort = "chaDtDataCriacao", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(chamadosServices.listarChamadosPorCliente(usuNrIdCliente, pageable));
+            ChamadoForm filtro,
+            @PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(chamadosServices.listarChamadosPorCliente(usuNrIdCliente, filtro, pageable));
     }
 
     @GetMapping("/tecnico/{usuNrIdTecnico}")
-    public ResponseEntity<Page<ChamadoDto>> listarPorTecnico(
+    public ResponseEntity<Page<ChamadoDadosCompletosDto>> listarPorTecnico(
             @PathVariable Long usuNrIdTecnico,
-            @PageableDefault(size = 10, sort = "chaDtDataCriacao", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(chamadosServices.listarChamadosPorTecnico(usuNrIdTecnico, pageable));
+            ChamadoForm filtro,
+            @PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(chamadosServices.listarChamadosPorTecnico(usuNrIdTecnico, filtro, pageable));
     }
 //
 //    @GetMapping("/cliente/{usuNrIdCliente}")

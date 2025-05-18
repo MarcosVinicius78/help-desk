@@ -4,8 +4,12 @@ import com.br.helpdesk.models.CategoriaEntidade;
 import com.br.helpdesk.repository.CategoriaRepository;
 import com.br.helpdesk.services.categoria.CategoriaService;
 import com.br.helpdesk.services.categoria.dto.CategoriaDto;
+import com.br.helpdesk.services.categoria.form.CategoriaFiltroForm;
 import com.br.helpdesk.services.categoria.form.CategoriaForm;
+import com.br.helpdesk.services.chamados.dto.ChamadoDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +25,12 @@ public class CategoriaServiceImpl implements CategoriaService {
         return categoriaRepository.findAll().stream()
                 .map(CategoriaDto::new)
                 .toList();
+    }
+
+    @Override
+    public Page<CategoriaDto> listarCategoriasDaEmpresa(Long empNrId, Pageable pageable, CategoriaFiltroForm filtro) {
+        return categoriaRepository.findByEmpNrId(empNrId, pageable, filtro)
+                .map(CategoriaDto::new);
     }
 
     @Override

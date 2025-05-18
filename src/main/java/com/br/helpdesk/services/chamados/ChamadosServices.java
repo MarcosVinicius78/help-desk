@@ -1,5 +1,6 @@
 package com.br.helpdesk.services.chamados;
 
+import com.br.helpdesk.services.chamados.dto.ChamadoDadosCompletosDto;
 import com.br.helpdesk.services.chamados.dto.ChamadoDto;
 import com.br.helpdesk.services.chamados.form.ChamadoForm;
 import org.springframework.data.domain.Page;
@@ -10,11 +11,11 @@ import java.util.Optional;
 
 public interface ChamadosServices {
 
-    Page<ChamadoDto> listarChamados(Pageable pageable);
+    Page<ChamadoDadosCompletosDto> listarChamados(ChamadoForm filtro, Pageable pageable);
 
-    Page<ChamadoDto> listarChamadosPorCliente(Long usuNrIdCliente, Pageable pageable);
+    Page<ChamadoDadosCompletosDto> listarChamadosPorCliente(Long usuNrIdCliente, ChamadoForm filtro, Pageable pageable);
 
-    Page<ChamadoDto> listarChamadosPorTecnico(Long usuNrIdTecnico, Pageable pageable);
+    Page<ChamadoDadosCompletosDto> listarChamadosPorTecnico(Long usuNrIdTecnico, ChamadoForm filtro, Pageable pageable);
 
     ChamadoDto buscarChamadoPorId(Long id);
 

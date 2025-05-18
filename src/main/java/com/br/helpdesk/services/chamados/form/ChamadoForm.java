@@ -13,4 +13,7 @@ public record ChamadoForm(
         Long chaNrIdTecnico,
         Long catNrId
 ) {
+        public String chaTxStatusStr() {
+                return chaTxStatus != null ? chaTxStatus.name() : null;
+        }
 }
