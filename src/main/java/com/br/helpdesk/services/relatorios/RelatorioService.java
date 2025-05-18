@@ -2,16 +2,17 @@ package com.br.helpdesk.services.relatorios;
 
 import com.br.helpdesk.services.relatorios.dto.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RelatorioService {
-    List<RelatorioStatusDto> obterChamadosPorStatus();
+    List<RelatorioStatusDto> obterChamadosPorStatus(LocalDate chaDtDataCriacao);
 
-    List<RelatorioChamadosPorTecnicoDto> obterChamadosPorTecnico();
+    List<RelatorioChamadosPorTecnicoDto> obterChamadosPorTecnico(LocalDate chaDtDataCriacao);
 
-    List<RelatorioTempoMedioResolucaoDto> obterTempoMedioResolucao();
+    RelatorioChamadosPorDataDto obterChamadosPorData(LocalDate chaDtDataCriacao);
 
-    List<RelatorioChamadosPorDataDto> obterChamadosPorData();
+    List<RelatorioChamadosPorCategoriaDto> relatorioChamadosPorCategoria(LocalDate chaDtDataCriacao);
 
-    List<RelatorioChamadosPorCategoriaDto> relatorioChamadosPorCategoria();
+    List<ChamadoSemanalDTO> listarChamadosPorSemana();
 }

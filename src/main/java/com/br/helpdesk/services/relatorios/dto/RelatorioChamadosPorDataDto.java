@@ -1,7 +1,7 @@
 package com.br.helpdesk.services.relatorios.dto;
 
-public record RelatorioChamadosPorDataDto(
-        String dia,
-        Long total
-) {
+public interface RelatorioChamadosPorDataDto{
+    String getData();
+    Long getTotal();
+    String getNomeDia();
 }

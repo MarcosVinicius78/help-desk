@@ -6,6 +6,7 @@ import com.br.helpdesk.services.relatorios.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -14,27 +15,27 @@ public class RelatorioServiceImpl implements RelatorioService {
     private final RelatorioRepository relatorioRepository;
 
     @Override
-    public List<RelatorioStatusDto> obterChamadosPorStatus() {
-        return relatorioRepository.relatorioPorStatus();
+    public List<RelatorioStatusDto> obterChamadosPorStatus(LocalDate chaDtDataCriacao) {
+        return relatorioRepository.relatorioPorStatus(chaDtDataCriacao);
     }
 
     @Override
-    public List<RelatorioChamadosPorTecnicoDto> obterChamadosPorTecnico() {
-        return relatorioRepository.relatorioChamadosPorTecnico();
+    public List<RelatorioChamadosPorTecnicoDto> obterChamadosPorTecnico(LocalDate chaDtDataCriacao) {
+        return relatorioRepository.relatorioChamadosPorTecnico(chaDtDataCriacao);
     }
 
     @Override
-    public List<RelatorioTempoMedioResolucaoDto> obterTempoMedioResolucao() {
-        return relatorioRepository.relatorioTempoMedioPorTecnico();
+    public RelatorioChamadosPorDataDto obterChamadosPorData(LocalDate chaDtDataCriacao) {
+        return relatorioRepository.relatorioChamadosPorData(chaDtDataCriacao);
     }
 
     @Override
-    public List<RelatorioChamadosPorDataDto> obterChamadosPorData() {
-        return relatorioRepository.relatorioChamadosPorData();
+    public List<ChamadoSemanalDTO> listarChamadosPorSemana() {
+        return relatorioRepository.obterChamadosPorSemana();
     }
 
     @Override
-    public List<RelatorioChamadosPorCategoriaDto> relatorioChamadosPorCategoria() {
-        return relatorioRepository.relatorioChamadosPorCategoria();
+    public List<RelatorioChamadosPorCategoriaDto> relatorioChamadosPorCategoria(LocalDate chaDtDataCriacao) {
+        return relatorioRepository.relatorioChamadosPorCategoria(chaDtDataCriacao);
     }
 }
