@@ -1,5 +1,7 @@
 package com.br.helpdesk.controlles;
 
+import com.br.helpdesk.services.Roles.UsuarioRoleService;
+import com.br.helpdesk.services.Roles.dto.RolesDto;
 import com.br.helpdesk.services.usuario.UsuarioService;
 import com.br.helpdesk.services.usuario.dto.UsuarioDto;
 import com.br.helpdesk.services.usuario.form.UsuarioForm;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final UsuarioRoleService usuarioRoleService;
 
     @GetMapping
     public ResponseEntity<List<UsuarioDto>> listarUsuarios() {
@@ -41,5 +44,22 @@ public class UsuarioController {
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
         usuarioService.deletarUsuario(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{usuNrId}/roles/{rolNrId}")
+    public ResponseEntity<?> atribuirRole(@PathVariable Long usuNrId, @PathVariable Long rolNrId) {
+        usuarioRoleService.atribuirRole(usuNrId, rolNrId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{usuNrId}/roles/{rolNrId}")
+    public ResponseEntity<?> removerRole(@PathVariable Long usuNrId, @PathVariable Long rolNrId) {
+        usuarioRoleService.removerRole(usuNrId, rolNrId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/buscar-roles")
+    public ResponseEntity<List<RolesDto>> listarRoles() {
+        return ResponseEntity.ok().body(usuarioRoleService.listarRoles());
     }
 }

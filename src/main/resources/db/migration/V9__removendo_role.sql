@@ -1,0 +1,1 @@
+ALTER TABLE public.usu_usuarios ALTER COLUMN rol_nr_id DROP NOT NULL;
