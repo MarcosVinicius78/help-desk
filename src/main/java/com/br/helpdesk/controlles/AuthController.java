@@ -1,10 +1,13 @@
 package com.br.helpdesk.controlles;
 
 import com.br.helpdesk.config.JwtUtil;
+import com.br.helpdesk.models.RolesEntidade;
 import com.br.helpdesk.models.UsuarioEntidade;
+import com.br.helpdesk.repository.RolesRepository;
 import com.br.helpdesk.repository.UsuarioRepository;
 import com.br.helpdesk.services.login.dto.LoginRequest;
 import com.br.helpdesk.services.login.dto.TokenResponse;
+import com.br.helpdesk.services.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +31,17 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
+    private final RolesRepository rolesRepository;
     private final PasswordEncoder encoder;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest login) {
+        UsuarioEntidade usuarioEntidade = usuarioRepository.buscarUsuarioPorEmail(login.usuTxEmail())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        RolesEntidade rolesEntidade = rolesRepository.findById(usuarioEntidade.getRolNrId())
+                .orElseThrow(() -> new RuntimeException("Role nao encontrada"));
+
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -57,7 +67,7 @@ public class AuthController {
         }
 
         // Se chegou aqui, autenticou OK
-        String token = jwtUtil.gerarToken(login.usuTxEmail());
+        String token = jwtUtil.gerarToken(login.usuTxEmail(), rolesEntidade.getRolTxDescricao());
         return ResponseEntity.ok(new TokenResponse(token));
     }
 
@@ -70,10 +80,12 @@ public class AuthController {
         novo.setUsuBlAtivo(true);
         novo.setRolNrId(2L);
         novo.setEmpNrId(1L);
+        RolesEntidade rolesEntidade = rolesRepository.findById(2L)
+                .orElseThrow(() -> new RuntimeException("Role nao encontrada"));
         // coloque um role e empresa válidos aqui
         usuarioRepository.save(novo);
 
-        String token = jwtUtil.gerarToken(login.usuTxEmail());
+        String token = jwtUtil.gerarToken(login.usuTxEmail(), rolesEntidade.getRolTxDescricao());
         return ResponseEntity.ok(new TokenResponse(token));
     }
 }

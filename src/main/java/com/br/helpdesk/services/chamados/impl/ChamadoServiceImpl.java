@@ -1,13 +1,16 @@
 package com.br.helpdesk.services.chamados.impl;
 
+import com.br.helpdesk.models.UsuarioEntidade;
 import com.br.helpdesk.models.chamados.ChamadosEntidade;
 import com.br.helpdesk.models.chamados.enums.StatusChamados;
 import com.br.helpdesk.repository.ChamadoRepository;
+import com.br.helpdesk.repository.UsuarioRepository;
 import com.br.helpdesk.services.chamados.ChamadosServices;
 import com.br.helpdesk.services.chamados.dto.ChamadoDadosCompletosDto;
 import com.br.helpdesk.services.chamados.dto.ChamadoDto;
 import com.br.helpdesk.services.chamados.dto.ChamadosDadosCompletos;
 import com.br.helpdesk.services.chamados.form.ChamadoForm;
+import com.br.helpdesk.services.email.impl.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +24,8 @@ import java.util.List;
 public class ChamadoServiceImpl implements ChamadosServices {
 
     private final ChamadoRepository chamadoRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final EmailService emailService;
 
     @Override
     public Page<ChamadoDadosCompletosDto> listarChamados(ChamadoForm filtro, Pageable pageable) {
@@ -77,8 +82,19 @@ public class ChamadoServiceImpl implements ChamadosServices {
     public ChamadoDto atribuirChamado(Long chaNrId, Long usuNrIdTecnico) {
         return chamadoRepository.findById(chaNrId)
                 .map(chamado -> {
+                    UsuarioEntidade tecnico = usuarioRepository.findById(usuNrIdTecnico).orElseThrow(() -> new RuntimeException(""));
+                    UsuarioEntidade cliente = usuarioRepository.findById(chamado.getUsuNrIdCliente()).orElseThrow(() -> new RuntimeException(""));
                     chamado.setUsuNrIdTecnico(usuNrIdTecnico);
                     chamado.setChaTxStatus(StatusChamados.EM_ANDAMENTO);
+
+                    String assunto = "Seu chamado foi assumido!";
+                    String corpo = "Olá " + cliente.getUsuTxNome() + ",<br><br>"
+                                   + "O técnico <b>" + tecnico.getUsuTxNome() + "</b> assumiu o chamado <b>"
+                                   + chamado.getChaTxTitulo() + "</b>.<br><br>"
+                                   + "Você será notificado sobre o andamento.<br><br>"
+                                   + "Att,<br>Equipe Helpdesk";
+
+                    emailService.enviarEmailSimples(cliente.getUsuTxEmail(), assunto, corpo);
                     return new ChamadoDto(chamadoRepository.save(chamado));
                 }).orElseThrow(() -> new RuntimeException("Chamado não encontrado"));
     }

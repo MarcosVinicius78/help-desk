@@ -14,9 +14,10 @@ public class JwtUtil {
 
     private final String SECRET = "JZPzJg8UtQdYxkA3NdN7WTZMXruyQa1KkMEHvhq8lGg";
 
-    public String gerarToken(String username) {
+    public String gerarToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
                 .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
@@ -25,6 +26,7 @@ public class JwtUtil {
     public String getUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(SECRET.getBytes())
+                .setAllowedClockSkewSeconds(60)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()

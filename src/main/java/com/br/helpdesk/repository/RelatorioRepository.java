@@ -13,13 +13,13 @@ import java.util.List;
 public interface RelatorioRepository extends CrudRepository<ChamadosEntidade, Long> {
     @Query(value = """
         SELECT
-            cha_tx_status AS status, 
-            COUNT(*) AS total 
-        FROM 
+            cha_tx_status AS status,
+            COUNT(*) AS total
+        FROM
             cha_chamados
         WHERE
             cha_dt_data_criacao::date = :chaDtDataCriacao
-        GROUP BY 
+        GROUP BY
             cha_tx_status""",
         nativeQuery = true)
     List<RelatorioStatusDto> relatorioPorStatus(@Param("chaDtDataCriacao")LocalDate chaDtDataCriacao);

@@ -15,7 +15,7 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntidade, Long> 
         from
             usu_usuarios
         where
-            usu_tx_email = :usuTxNome
+            upper(usu_tx_email) = upper(:usuTxNome)
     """, nativeQuery = true)
     Optional<UsuarioEntidade> buscarUsuarioPorEmail(@Param("usuTxNome") String usuTxNome);
 }
