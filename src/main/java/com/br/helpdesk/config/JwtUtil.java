@@ -38,9 +38,11 @@ public class JwtUtil {
                 .compact();
     }
 
+
     public String getUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(SECRET.getBytes())
+                .setAllowedClockSkewSeconds(60)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
