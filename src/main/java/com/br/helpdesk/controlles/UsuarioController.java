@@ -2,10 +2,15 @@ package com.br.helpdesk.controlles;
 
 import com.br.helpdesk.services.Roles.UsuarioRoleService;
 import com.br.helpdesk.services.Roles.dto.RolesDto;
+import com.br.helpdesk.services.categoria.form.CategoriaFiltroForm;
 import com.br.helpdesk.services.usuario.UsuarioService;
 import com.br.helpdesk.services.usuario.dto.UsuarioDto;
+import com.br.helpdesk.services.usuario.form.UsuarioFilterForm;
 import com.br.helpdesk.services.usuario.form.UsuarioForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +24,10 @@ public class UsuarioController {
     private final UsuarioRoleService usuarioRoleService;
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDto>> listarUsuarios() {
-        return ResponseEntity.ok(usuarioService.listarUsuarios());
+    public ResponseEntity<Page<UsuarioDto>> listarUsuarios(
+            UsuarioFilterForm filtro,
+            @PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(usuarioService.listarUsuarios(filtro, pageable));
     }
 
     @GetMapping("/{id}")

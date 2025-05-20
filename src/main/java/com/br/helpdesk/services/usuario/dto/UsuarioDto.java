@@ -7,7 +7,8 @@ public record UsuarioDto(
         String usuTxNome,
         String usuTxEmail,
         Boolean usuBlAtivo,
-        Long rolNrId
+        Long rolNrId,
+        Long empNrId
 ) {
     public UsuarioDto(UsuarioEntidade usuario) {
         this(
@@ -15,7 +16,8 @@ public record UsuarioDto(
                 usuario.getUsuTxNome(),
                 usuario.getUsuTxEmail(),
                 usuario.getUsuBlAtivo(),
-                usuario.getRolNrId()
+                usuario.getRolNrId(),
+                usuario.getEmpNrId()
         );
     }
 }

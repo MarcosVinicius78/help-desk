@@ -4,8 +4,11 @@ import com.br.helpdesk.models.UsuarioEntidade;
 import com.br.helpdesk.repository.UsuarioRepository;
 import com.br.helpdesk.services.usuario.UsuarioService;
 import com.br.helpdesk.services.usuario.dto.UsuarioDto;
+import com.br.helpdesk.services.usuario.form.UsuarioFilterForm;
 import com.br.helpdesk.services.usuario.form.UsuarioForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +19,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
     @Override
-    public List<UsuarioDto> listarUsuarios() {
-        return usuarioRepository.findAll().stream()
-                .map(UsuarioDto::new)
-                .toList();
+    public Page<UsuarioDto> listarUsuarios(UsuarioFilterForm filtro, Pageable pageable) {
+        return usuarioRepository.listarUsuarios(filtro, pageable).map(UsuarioDto::new);
     }
 
     @Override
