@@ -33,6 +33,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .claim("role", role)
                 .claim("empNrId", usuario.getEmpNrId())
+                .claim("usuNrId", usuario.getUsuNrId())
                 .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
                 .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), SignatureAlgorithm.HS256)
                 .compact();

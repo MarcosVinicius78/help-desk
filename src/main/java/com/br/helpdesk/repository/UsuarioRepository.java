@@ -35,25 +35,17 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntidade, Long> 
     @Query(
             nativeQuery = true,
             value = """
-    SELECT usu.*
-      FROM usu_usuarios usu
-          where (:#{#filtro.rolNrId() == null} or usu.rol_nr_id =:#{#filtro.rolNrId()})
+    SELECT
+            usu.*
+    FROM usu_usuarios usu
+    where
+        (:#{#filtro.rolNrId() == null} or usu.rol_nr_id =:#{#filtro.rolNrId()})
+        and (:#{#filtro.usuTxNome() == null} or upper(usu.usu_tx_nome) like upper(concat('%', coalesce(:#{#filtro.usuTxNome()?.trim()}, ''), '%')))
     """
     )
     Page<UsuarioEntidade> listarUsuarios(
             @Param("filtro") UsuarioFilterForm filtro,
             Pageable pageable
     );
-
-//    and (:#{#filtro.eaNrId() == null} or mea.mea_nr_id =:#{#filtro.meaNrId})
-//    and (:#{#filtro.medNrId() == null} or mea.med_nr_id =:#{#filtro.medNrId})
-//    and (:#{#filtro.umeNrId() == null} or mea.ume_nr_id =:#{#filtro.umeNrId})
-//    and (:#{#filtro.meaTxDescricao() == null} or upper(mea.mea_tx_descricao) like upper(concat('%', coalesce(:#{#filtro.meaTxDescricao()?.trim()}, ''), '%')))
-//    and (:#{#filtro.meaTxCodigoCatmat() == null} or upper(mea.mea_tx_codigo_catmat) like upper(concat('%', coalesce(:#{#filtro.meaTxCodigoCatmat()?.trim()}, ''), '%')))
-//    and (:#{#filtro.meaTxConcentracao() == null} or upper(mea.mea_tx_concentracao) like upper(concat('%', coalesce(:#{#filtro.meaTxConcentracao()?.trim()}, ''), '%')))
-//    and (:#{#filtro.meaTxFormaFarmaceutica() == null} or upper(mea.mea_tx_forma_farmaceutica) like upper(concat('%', coalesce(:#{#filtro.meaTxFormaFarmaceutica()?.trim()}, ''), '%')))
-//    and (:#{#filtro.meaTxVolume() == null} or upper(mea.mea_tx_volume) like upper(concat('%', coalesce(:#{#filtro.meaTxVolume()?.trim()}, ''), '%')))
-//    and (:#{#filtro.meaTxDescricaoOuCatmat() == null}
-
 
 }

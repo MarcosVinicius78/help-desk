@@ -5,6 +5,7 @@ import com.br.helpdesk.models.UsuarioEntidade;
 import com.br.helpdesk.repository.UsuarioRepository;
 import com.br.helpdesk.services.login.dto.LoginRequest;
 import com.br.helpdesk.services.login.dto.TokenResponse;
+import com.br.helpdesk.services.usuario.form.UsuarioForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,14 +63,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody LoginRequest login) {
+    public ResponseEntity<?> register(@RequestBody UsuarioForm login) {
         UsuarioEntidade novo = new UsuarioEntidade();
         novo.setUsuTxEmail(login.usuTxEmail());
         novo.setUsuTxSenha(encoder.encode(login.usuTxSenha()));
-        novo.setUsuTxNome("Novo Usuário");
+        novo.setUsuTxNome(login.usuTxNome());
         novo.setUsuBlAtivo(true);
-        novo.setRolNrId(2L);
-        novo.setEmpNrId(1L);
+        novo.setRolNrId(login.rolNrId());
+        novo.setEmpNrId(login.empNrId());
         // coloque um role e empresa válidos aqui
         usuarioRepository.save(novo);
 
